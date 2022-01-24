@@ -1,0 +1,9 @@
+//pieces of code to use font awesome icons in text on webpages
+
+
+<i class="fa fa-exclamation-circle fa-2x nr-dashboard-error"></i>
+<i class="fa fa-warning fa-2x nr-dashboard-warning"></i>
+<i class="fa fa-lightbulb-o fa-2x nr-dashboard-ok"></i>
+
+<font color={{(msg.payload?"yellow":"grey")}}><i class="fa fa-lightbulb-o fa-2x"></i></font><br/><font size="-2">World</font>
+<font color={{(msg.payload?"red":"grey")}}><i class="fa fa-lightbulb-o fa-2x"></i></font><br/><font size="-2">Hello</font>
