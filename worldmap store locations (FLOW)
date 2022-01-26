@@ -1,0 +1,205 @@
+[
+    {
+        "id": "e308df9c84a9999b",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "eab4792e38c189ee",
+        "type": "worldmap",
+        "z": "e308df9c84a9999b",
+        "name": "",
+        "lat": "",
+        "lon": "",
+        "zoom": "",
+        "layer": "OSMG",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "show",
+        "layers": "show",
+        "panit": "true",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "deg",
+        "showgrid": "false",
+        "allowFileDrop": "false",
+        "path": "/worldmap",
+        "overlist": "DR,CO,RA,DN,HM",
+        "maplist": "OSMG,OSMC,OSMH,EsriC,EsriS,EsriT,EsriO,EsriDG,NatGeo,UKOS,ST,SW",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
+        "x": 650,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "150926721124bc6a",
+        "type": "ui_worldmap",
+        "z": "e308df9c84a9999b",
+        "group": "1c94b8ec141b8dd3",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "lat": "",
+        "lon": "",
+        "zoom": "",
+        "layer": "OSMG",
+        "cluster": "",
+        "maxage": "",
+        "usermenu": "show",
+        "layers": "show",
+        "panit": "true",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "false",
+        "coords": "deg",
+        "showgrid": "false",
+        "allowFileDrop": "false",
+        "path": "/worldmap",
+        "overlist": "DR,CO,RA,DN,HM",
+        "maplist": "OSMG,OSMC,EsriC,EsriS,EsriT,EsriDG,UKOS,SW",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
+        "x": 620,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "e67057dbf3429b35",
+        "type": "worldmap in",
+        "z": "e308df9c84a9999b",
+        "name": "",
+        "path": "/worldmap",
+        "events": "connect,disconnect,point,layer,bounds,files,draw,other",
+        "x": 660,
+        "y": 280,
+        "wires": [
+            [
+                "fe1a3983fdd1b46f",
+                "85edffdaeaa6752d"
+            ]
+        ]
+    },
+    {
+        "id": "fe1a3983fdd1b46f",
+        "type": "debug",
+        "z": "e308df9c84a9999b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 850,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "3f7ca9735817f92d",
+        "type": "debug",
+        "z": "e308df9c84a9999b",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1010,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "85edffdaeaa6752d",
+        "type": "function",
+        "z": "e308df9c84a9999b",
+        "name": "",
+        "func": "var action = msg.payload.action;\nif(action == \"draw\"){\n    var area = msg.payload.area;\n    var name = msg.payload.name;\nflow.set(name,area);\nmsg.payload = area;\nreturn msg;\n}\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 500,
+        "wires": [
+            [
+                "3f7ca9735817f92d"
+            ]
+        ]
+    },
+    {
+        "id": "2a17f23b140cdcb1",
+        "type": "function",
+        "z": "e308df9c84a9999b",
+        "name": "",
+        "func": "var flowname = msg.payload\nvar area = flow.get(flowname);\nmsg.payload = {\"name\": \"zone1\", \"area\":area};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 340,
+        "wires": [
+            [
+                "150926721124bc6a"
+            ]
+        ]
+    },
+    {
+        "id": "0e5bfdb746a12fec",
+        "type": "ui_text_input",
+        "z": "e308df9c84a9999b",
+        "name": "",
+        "label": "Put flowname you entered in the map here",
+        "tooltip": "",
+        "group": "1c94b8ec141b8dd3",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 220,
+        "y": 340,
+        "wires": [
+            [
+                "2a17f23b140cdcb1"
+            ]
+        ]
+    },
+    {
+        "id": "1c94b8ec141b8dd3",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "cf3108690ea4a357",
+        "order": 1,
+        "disp": true,
+        "width": "17",
+        "collapse": false
+    },
+    {
+        "id": "cf3108690ea4a357",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
