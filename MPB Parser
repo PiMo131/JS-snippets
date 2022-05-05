@@ -1,0 +1,138 @@
+// below function has 2 outputs:
+//1 output is continous 'diagnose' will forward all the unitsensor data,
+// this data is not relevant for alarms / triggers.
+// the 'alarm' output will give an output of every alarm event in the system. 
+//async function delay(timeMs) {
+  //  await new Promise(resolve => setTimeout(resolve, timeMs));
+ // }
+
+function checkstate(oud,news,at) {
+    var state = "undefined";
+    var odata = oud.charAt(at)
+    var ndata = news.charAt(at)
+    
+     if(odata != ndata){
+         if(ndata == "1"){
+              state = "alarm";
+              if(at == 7 || at == 15){state = "aan"}
+                      }
+                      
+         if(ndata == "0"){
+            
+              state = "restore";
+              if(at == 7 || at == 15){state = "uit"}
+                      }           
+         if(ndata != "0" && ndata != "1"){
+              state = "fail";
+                      }                        
+      
+
+        // naamgeving van de alarmen
+            if(at==1){description = "Fencer fout Z1"}
+            if(at==2){description = "Kortsluiting Z1"}
+            if(at==3){description = "Vooralarm Z1"}
+            if(at==4){description = "HV alarm"}
+            if(at==5){description = "GND lus alarm"}
+            if(at==6){description = "HV lus alarm"}
+            if(at==7){description = "Hoogspanning status Z1"}
+            if(at==8){description = "FIREMODE"}
+            if(at==9){description = "Fencer fout Z2"}
+            if(at==10){description = "Kortsluiting Z2"}
+            if(at==11){description = "Vooralarm Z2"}
+            if(at==12){description = "HV alarm Z2"}
+            if(at==13){description = "GND lus alarm Z2"}
+            if(at==14){description = "HV lus alarm Z2"}
+            if(at==15){description = "Hoogspanning status Z2"}
+            if(at==16){description = "Unit Installed"}
+            if(at==17){description = "230V uitval"}
+            if(at==18){description = "Low Battery"}       
+            if(at==19){description = "UIB tamper"}
+            if(at==20){description = "Overbruggin Z1"}
+            if(at==21){description = "Overbrugging Z2"}
+            if(at==22){description = "Synchronisatie fout"}
+            if(at==23){description = "Unit Tamper"}
+    
+            // aanpassing van de UNQ naar zone
+        //if(at==1 || at==2 || at==3 || at==4 || at==5 || at==6 || at==7){UNQ = UNQ + ";Z1"}
+        //if(at==9 || at==10 || at==11 || at==12 || at==13 || at==14 || at==15){UNQ = UNQ + ";Z2"}
+        
+        alarm.topic = "alarm";
+        alarm.UNQ = UNQ;
+        alarm.descript = description;
+        alarm.state = state;
+        alarm.indentifier = at;
+        alarm.ndata = ndata;
+        alarm.odata = odata;
+        node.send(alarm);
+    //await delay(50);
+     }
+     
+    }
+
+    let data = msg.payload.split(",");
+//S01,00,00,80,00,00,00,00
+    let unitID = data[0]; 
+    let UNQ = "L" + msg.line + unitID;
+    
+if(unitID.length==3 && unitID.substring(0,1)== "S"){ //check whether data is coming from MPB
+    var flowname = UNQ + ";" + "state";
+    
+        var alarm = {};
+        var diagnose = {};
+
+    diagnose.topic = "diagnose";
+    diagnose.UNQ = UNQ;
+    diagnose.HV1 = parseInt(data[4],16);
+    diagnose.HV2 = parseInt(data[5],16);
+    diagnose.LV1 = parseInt(data[6],16);
+    diagnose.LV2 = parseInt(data[7],16);
+
+node.send(diagnose);
+// sensordata has been sent. Now moving on to alarm data handling
+
+// function for delay in javascript
+
+
+  // function to check and translate alarms per alarmtype
+
+
+  
+
+var oldstate = flow.get(flowname);
+    var aX = (parseInt(data[1], 16)).toString(2);
+    var aa = "00000000".substring(aX.length) + aX;
+    var bX = (parseInt(data[2], 16)).toString(2);
+    var bb = "00000000".substring(bX.length) + bX;
+    var cX = (parseInt(data[3], 16)).toString(2);
+    var cc = "00000000".substring(cX.length) + cX;
+    let newstate = aa+bb+cc; // check whether old and new states match, if so no changes in the current state means.. no actions on the alarm level
+    
+    
+if (oldstate != newstate){
+   
+    checkstate(oldstate, newstate, 1);
+    checkstate(oldstate, newstate, 2);
+    checkstate(oldstate, newstate, 3);
+    checkstate(oldstate, newstate, 4);
+    checkstate(oldstate, newstate, 5);
+    checkstate(oldstate, newstate, 6);
+    checkstate(oldstate, newstate, 7);
+    checkstate(oldstate, newstate, 8);
+    checkstate(oldstate, newstate, 9);
+    checkstate(oldstate, newstate, 10);
+    checkstate(oldstate, newstate, 11);
+    checkstate(oldstate, newstate, 12);
+    checkstate(oldstate, newstate, 13);
+    checkstate(oldstate, newstate, 14);
+    checkstate(oldstate, newstate, 15);
+    checkstate(oldstate, newstate, 16);
+    checkstate(oldstate, newstate, 17);
+    checkstate(oldstate, newstate, 18);
+    checkstate(oldstate, newstate, 19);
+    checkstate(oldstate, newstate, 20);
+    checkstate(oldstate, newstate, 21);
+    checkstate(oldstate, newstate, 22);
+    checkstate(oldstate, newstate, 23);
+
+flow.set(flowname,newstate);
+}}
