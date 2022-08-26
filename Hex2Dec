@@ -1,0 +1,195 @@
+// set of Node Red flows to get from hex to decimal
+
+[
+    {
+        "id": "c6ffc8ee9e6576c5",
+        "type": "inject",
+        "z": "837b0c5c49d86b46",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "10",
+        "payloadType": "str",
+        "x": 470,
+        "y": 440,
+        "wires": [
+            [
+                "d7a801850297e3e2"
+            ]
+        ]
+    },
+    {
+        "id": "d7a801850297e3e2",
+        "type": "function",
+        "z": "837b0c5c49d86b46",
+        "name": "Dec2Hex",
+        "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 440,
+        "wires": [
+            [
+                "0d300ddcf92fc634"
+            ]
+        ]
+    },
+    {
+        "id": "0d300ddcf92fc634",
+        "type": "debug",
+        "z": "837b0c5c49d86b46",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "a1fd5dc9c2bf33ef",
+        "type": "inject",
+        "z": "837b0c5c49d86b46",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0A",
+        "payloadType": "str",
+        "x": 470,
+        "y": 520,
+        "wires": [
+            [
+                "0a6719e2abb312a0"
+            ]
+        ]
+    },
+    {
+        "id": "0a6719e2abb312a0",
+        "type": "function",
+        "z": "837b0c5c49d86b46",
+        "name": "Hex2Dec",
+        "func": "var hexstring = msg.payload;\ndecimal = parseInt(hexstring, 16);\nmsg.payload = decimal;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 520,
+        "wires": [
+            [
+                "b198e3528edd9b78"
+            ]
+        ]
+    },
+    {
+        "id": "b198e3528edd9b78",
+        "type": "debug",
+        "z": "837b0c5c49d86b46",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "45848ae0feb23afb",
+        "type": "inject",
+        "z": "837b0c5c49d86b46",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "10",
+        "payloadType": "str",
+        "x": 470,
+        "y": 480,
+        "wires": [
+            [
+                "ba9bb6ca344c18e2"
+            ]
+        ]
+    },
+    {
+        "id": "ba9bb6ca344c18e2",
+        "type": "function",
+        "z": "837b0c5c49d86b46",
+        "name": "Dec2Hex. Uppercase",
+        "func": "var decimal = msg.payload;\ndecimal = parseInt(decimal);\nvar hexString = decimal.toString(16).padStart(2,'0').toUpperCase();\nmsg.payload = hexString;\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 480,
+        "wires": [
+            [
+                "c3bed42557788edc"
+            ]
+        ]
+    },
+    {
+        "id": "c3bed42557788edc",
+        "type": "debug",
+        "z": "837b0c5c49d86b46",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 950,
+        "y": 480,
+        "wires": []
+    }
+]
